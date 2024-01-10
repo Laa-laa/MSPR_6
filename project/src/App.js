@@ -1,29 +1,47 @@
-import React, { useState } from "react";
+import React from "react";
+import {
+  createBrowserRouter,
+  Link,
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import "./App.css";
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+    children: [
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
+      },
+    ],
+  },
+]);
+
 const App = () => {
-  const [currentPage, setCurrentPage] = useState("home");
-
-  const renderPage = () => {
-    switch (currentPage) {
-      case "login":
-        return <Login />;
-      case "register":
-        return <Register />;
-      default:
-        return (
-          <Home
-            onLogin={() => setCurrentPage("login")}
-            onRegister={() => setCurrentPage("register")}
-          />
-        );
-    }
-  };
-
-  return <div>{renderPage()}</div>;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={<Home onLogin={() => {}} onRegister={() => {}} />}
+        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </BrowserRouter>
+  );
 };
 
 export default App;
