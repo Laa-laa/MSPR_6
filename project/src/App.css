@@ -14,6 +14,12 @@
 body{
   margin: 0 auto;
 }
+
+*{
+box-sizing: border-box;
+font-family: "montserrat", "sans-serif";
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -69,13 +75,15 @@ body{
 .loginContainer {
   background-color: #fff;
   padding: 30px;
-  border-radius: 20% 20% 0 0;;
+  border-radius: 10% 10% 0 0;;
   text-align: center;
   width: 100vw;
   height: 70vh;
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6), 0 6px 12px rgba(0, 0, 0, 0.5);
+
 }
 
 .title {
