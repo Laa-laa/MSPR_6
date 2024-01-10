@@ -98,7 +98,7 @@ body{
 }
 
 .loginButton,
-.registerButton {
+.coloredButton {
   padding: 12px 20px;
   font-size: 1em;
   cursor: pointer;
@@ -107,21 +107,28 @@ body{
   transition: background-color 0.3s ease;
 }
 
-.loginButton {
-  background-color: var(--secondary-color);
-  color: #fff;
-}
-
-.registerButton {
+.loginButton, .loginContainer input{
   background-color: #fff;
   color: var(--secondary-color);
   border: 1px solid var(--secondary-color);
+  border-radius: 50px;
+}
+
+.coloredButton{  
+  background-color: var(--secondary-color);
+  color: #fff;
+  border-radius: 50px;
 }
 
 .loginButton:hover,
-.registerButton:hover {
+.coloredButton:hover {
   background-color: var(--secondary-color);
   color: #fff;
+}
+
+form{
+  display: flex;
+  flex-flow: column wrap;
 }
 
 /* Round overlay */

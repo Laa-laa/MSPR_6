@@ -14,7 +14,7 @@ const Home = ({ onLogin, onRegister }) => {
         <p className="paragraph">Connectez-vous ou inscrivez-vous pour prendre soin de vos plantes!</p>
         <div className='buttonContainer'>
           <button className="loginButton" onClick={onLogin}>Se connecter</button>
-          <button className="registerButton" onClick={onRegister}>S'inscrire</button>
+          <button className="coloredButton" onClick={onRegister}>S'inscrire</button>
         </div>
       </div>
     </div>

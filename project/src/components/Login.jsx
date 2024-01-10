@@ -51,7 +51,7 @@ const Login = ({ onBack }) => {
           />
         </label>
         <br />
-        <button type="button" onClick={handleLogin}>
+        <button className="coloredButton" type="button" onClick={handleLogin}>
           Login
         </button>
       </form>
