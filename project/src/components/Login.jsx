@@ -4,11 +4,12 @@ import React, { useState } from 'react';
 const Login = ({ onBack }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleLogin = async () => {
     // Envoie des données de login au serveur
     try {
-      const response = await fetch('/api/login', {
+      const response = await fetch('http://localhost:3000/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -22,10 +23,13 @@ const Login = ({ onBack }) => {
         // Ajoutez ici des redirections ou d'autres actions après la connexion réussie
       } else {
         // Gestion des erreurs de connexion
-        console.error('Login failed');
+        const errorData = await response.json();
+        setErrorMessage(errorData.error || 'Login failed');
+        console.error('Login failed:', errorData.error || 'Unknown error');
       }
     } catch (error) {
       console.error('An error occurred during login:', error);
+      setErrorMessage('An error occurred during login');
     }
   };
 
@@ -55,6 +59,7 @@ const Login = ({ onBack }) => {
           Login
         </button>
       </form>
+      {errorMessage && <p className="error">{errorMessage}</p>}
       <button className="backButton" onClick={onBack}>
         Retour
       </button>
