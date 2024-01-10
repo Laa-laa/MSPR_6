@@ -34,6 +34,10 @@ const Login = ({ onBack }) => {
   };
 
   return (
+    <div className="homeContainer">
+       <div className="logoContainer">
+        <h1 className="logo">A'rosa-je</h1>
+      </div>
     <div className="loginContainer">
       <h2 className="title">Connexion</h2>
       <form>
@@ -55,14 +59,17 @@ const Login = ({ onBack }) => {
           />
         </label>
         <br />
-        <button type="button" onClick={handleLogin}>
-          Login
+        <div className='buttonContainer'>
+        <button className="coloredButton" type="button" onClick={handleLogin}>
+          Se connecter
         </button>
+        </div>
       </form>
       {errorMessage && <p className="error">{errorMessage}</p>}
       <button className="backButton" onClick={onBack}>
         Retour
       </button>
+    </div>
     </div>
   );
 };
