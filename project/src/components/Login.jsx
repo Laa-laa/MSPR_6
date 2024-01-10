@@ -55,9 +55,11 @@ const Login = ({ onBack }) => {
           />
         </label>
         <br />
+        <div className='buttonContainer'>
         <button className="coloredButton" type="button" onClick={handleLogin}>
           Login
         </button>
+        </div>
       </form>
       <button className="backButton" onClick={onBack}>
         Retour
