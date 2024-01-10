@@ -30,6 +30,10 @@ const Login = ({ onBack }) => {
   };
 
   return (
+    <div className="homeContainer">
+       <div className="logoContainer">
+        <h1 className="logo">A'rosa-je</h1>
+      </div>
     <div className="loginContainer">
       <h2 className="title">Connexion</h2>
       <form>
@@ -58,6 +62,7 @@ const Login = ({ onBack }) => {
       <button className="backButton" onClick={onBack}>
         Retour
       </button>
+    </div>
     </div>
   );
 };
