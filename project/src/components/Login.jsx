@@ -57,7 +57,7 @@ const Login = ({ onBack }) => {
         <br />
         <div className='buttonContainer'>
         <button className="coloredButton" type="button" onClick={handleLogin}>
-          Login
+          Se connecter
         </button>
         </div>
       </form>
