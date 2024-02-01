@@ -13,7 +13,7 @@ Base = declarative_base()
 
 
 class User(Base):
-    __tablename__ = "User"
+    __tablename__ = "user"
 
     id = Column(Integer, primary_key=True)
     name = Column(String(30))
@@ -21,11 +21,18 @@ class User(Base):
     email = Column(String)
     password = Column(String)
     isBotanist = Column(Boolean)
-    birthday = Column(Date)
+    birthday = Column(String)
+
+    messages_sent = relationship(
+        "Message", foreign_keys="[Message.idSender]", back_populates="sender"
+    )
+    messages_received = relationship(
+        "Message", foreign_keys="[Message.idReceiver]", back_populates="receiver"
+    )
 
     # useful for debugging
     def __repr__(self):
-        return f"User(id={self.id!r}, name={self.name!r}, fullname={self.fullname!r})"
+        return f"User(id={self.id!r}, name={self.name!r}, fullname={self.surname!r})"
 
 
 # class PlantQuestion(Base):
@@ -62,20 +69,20 @@ class User(Base):
 
 
 class Message(Base):
-    __tablename__ = "Message"
+    __tablename__ = "message"
 
     id = Column(Integer, primary_key=True)
-    idSender = Column(Integer)
-    idReceiver = Column(Integer)
+    idSender = Column(Integer, ForeignKey("user.id"))
+    idReceiver = Column(Integer, ForeignKey("user.id"))
     content = Column(String)
-    dateSent = Column(Integer)
+    dateSent = Column(String)
 
-    # idSender = relationship(
-    #     "idSender", back_populates="user", cascade="all, delete-orphan"
-    # )
-    # idQuestion = relationship(
-    #     "idReceiver", back_populates="user", cascade="all, delete-orphan"
-    # )
+    sender = relationship(
+        "User", foreign_keys=[idSender], back_populates="messages_sent"
+    )
+    receiver = relationship(
+        "User", foreign_keys=[idReceiver], back_populates="messages_received"
+    )
 
 
 engine = create_engine("sqlite:///DB_MSPR_6.db")
