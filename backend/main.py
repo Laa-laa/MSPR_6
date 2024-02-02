@@ -47,7 +47,7 @@ class User(Base):
 
 
 # class Answer(Base):
-#     __tablename__ = "Answer"
+#     __tablename__ = "answer"
 
 #     id = Column(Integer, primary_key=True)
 #     idSender = Column(Integer)
@@ -62,10 +62,6 @@ class User(Base):
 #     idQuestion = relationship(
 #         "idQuestion", back_populates="plantQuestion", cascade="all, delete-orphan"
 #     )
-
-# useful for debugging
-# def __repr__(self):
-#     return f"Answer(id={self.id!r}, name={self.name!r}, fullname={self.fullname!r})"
 
 
 class Message(Base):
@@ -83,6 +79,18 @@ class Message(Base):
     receiver = relationship(
         "User", foreign_keys=[idReceiver], back_populates="messages_received"
     )
+
+
+class PlantQuestion(Base):
+    __tablename__ = "plantQuestion"
+
+    id = Column(Integer, primary_key=True)
+    idOwner = Column(Integer, ForeignKey("user.id"))
+    picture = Column(String)
+    title = Column(String)
+    dateSent = Column(String)
+
+    idOwnder = relationship("User", foreign_keys=[idOwner], back_populates="user")
 
 
 engine = create_engine("sqlite:///DB_MSPR_6.db")
