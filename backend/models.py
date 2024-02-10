@@ -19,13 +19,6 @@ class User(Base):
     isBotanist = Column(Boolean)
     birthday = Column(String)
 
-    messages_sent = relationship(
-        "Message", foreign_keys="[Message.idSender]", back_populates="sender"
-    )
-    messages_received = relationship(
-        "Message", foreign_keys="[Message.idReceiver]", back_populates="receiver"
-    )
-
     # useful for debugging
     def __repr__(self):
         return f"User(id={self.id!r}, name={self.name!r}, fullname={self.surname!r})"
