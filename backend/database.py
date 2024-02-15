@@ -2,7 +2,10 @@ from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from models import *
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5c9fb5d534aa02da0ae3cbabf5908cd34b59c804
 
 engine = create_engine("sqlite:///DB_MSPR_6.db")
 
