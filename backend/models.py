@@ -16,15 +16,8 @@ class User(Base):
     surname = Column(String)
     email = Column(String)
     password = Column(String)
-    isBotanist = Column(Boolean)
+    isBotanist = Column(Integer)
     birthday = Column(String)
-
-    messages_sent = relationship(
-        "Message", foreign_keys="[Message.idSender]", back_populates="sender"
-    )
-    messages_received = relationship(
-        "Message", foreign_keys="[Message.idReceiver]", back_populates="receiver"
-    )
 
     # useful for debugging
     def __repr__(self):
