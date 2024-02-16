@@ -1,82 +1,71 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, Boolean, Date
+from sqlalchemy import Column, Integer, String, Boolean, Date, ForeignKey
 from sqlalchemy.orm import relationship
-from sqlalchemy.orm import declarative_base
+from .database import Base
 
-
-# Declarative Mapping
-Base = declarative_base()
-
-
-# SQLAlchemy models
 class User(Base):
-    __tablename__ = "user"
+    __tablename__ = 'User'
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String(30))
-    surname = Column(String)
-    email = Column(String)
-    password = Column(String)
-    isBotanist = Column(Integer)
-    birthday = Column(String)
+    Id = Column(Integer, primary_key=True, autoincrement=True)
+    Name = Column(String, nullable=False)
+    Surname = Column(String, nullable=False)
+    Email = Column(String, nullable=False, unique=True)
+    Password = Column(String, nullable=False)
+    IsBotanist = Column(Boolean, nullable=False, default=False)
+    Birthday = Column(Date, nullable=False)
 
-    # useful for debugging
-    def __repr__(self):
-        return f"User(id={self.id!r}, name={self.name!r}, fullname={self.surname!r})"
+    plant_guardings = relationship("PlantGuarding", foreign_keys="[PlantGuarding.IdOwner]")
+    questions = relationship("PlantQuestion", back_populates="owner")
 
+class PlantQuestion(Base):
+    __tablename__ = 'PlantQuestion'
+
+    Id = Column(Integer, primary_key=True, autoincrement=True)
+    IdOwner = Column(Integer, ForeignKey('User.Id'), nullable=False)
+    Picture = Column(String)
+    Title = Column(String, nullable=False)
+    Content = Column(String, nullable=False)
+    DateSent = Column(Date, nullable=False)
+
+    owner = relationship("User", back_populates="questions")
+    answers = relationship("Answer", back_populates="question")
+
+class Answer(Base):
+    __tablename__ = 'Answer'
+
+    Id = Column(Integer, primary_key=True, autoincrement=True)
+    IdSender = Column(Integer, ForeignKey('User.Id'), nullable=False)
+    IdQuestion = Column(Integer, ForeignKey('PlantQuestion.Id'), nullable=False)
+    Content = Column(String, nullable=False)
+    DateSent = Column(Date, nullable=False)
+    Picture = Column(String)
+
+    sender = relationship("User")
+    question = relationship("PlantQuestion", back_populates="answers")
+
+class PlantGuarding(Base):
+    __tablename__ = 'PlantGuarding'
+
+    Id = Column(Integer, primary_key=True, autoincrement=True)
+    IdOwner = Column(Integer, ForeignKey('User.Id'), nullable=False)
+    IdGuard = Column(Integer, ForeignKey('User.Id'))
+    Name = Column(String, nullable=False)
+    Description = Column(String)
+    Picture = Column(String)
+    DateStart = Column(Date, nullable=False)
+    DateEnd = Column(Date)
+    Location = Column(String)
+
+    owner = relationship("User", foreign_keys=[IdOwner], back_populates="plant_guardings")
+    guard = relationship("User", foreign_keys=[IdGuard])
 
 class Message(Base):
-    __tablename__ = "message"
+    __tablename__ = 'Message'
 
-    id = Column(Integer, primary_key=True)
-    idSender = Column(Integer, ForeignKey("user.id"))
-    idReceiver = Column(Integer, ForeignKey("user.id"))
-    content = Column(String)
-    dateSent = Column(String)
+    Id = Column(Integer, primary_key=True, autoincrement=True)
+    IdSender = Column(Integer, ForeignKey('User.Id'), nullable=False)
+    IdReceiver = Column(Integer, ForeignKey('User.Id'), nullable=False)
+    Content = Column(String, nullable=False)
+    DateSent = Column(Date, nullable=False)
 
-    sender = relationship(
-        "User", foreign_keys=[idSender], back_populates="messages_sent"
-    )
-    receiver = relationship(
-        "User", foreign_keys=[idReceiver], back_populates="messages_received"
-    )
-
-
-# class PlantQuestion(Base):
-#     __tablename__ = "PlantQuestion"
-
-#     id = Column(Integer, primary_key=True)
-#     idOwner = Column(Integer)
-#     picture = Column(String)
-#     title = Column(String)
-#     content = Column(String)
-#     DateSent = Column(Date)
-
-
-# class Answer(Base):
-#     __tablename__ = "answer"
-
-#     id = Column(Integer, primary_key=True)
-#     idSender = Column(Integer)
-#     idQuestion = Column(Integer)
-#     content = Column(String)
-#     DateSent = Column(Date)
-#     picture = Column(String)
-
-#     idSender = relationship(
-#         "idSender", back_populates="user", cascade="all, delete-orphan"
-#     )
-#     idQuestion = relationship(
-#         "idQuestion", back_populates="plantQuestion", cascade="all, delete-orphan"
-#     )
-
-
-# class PlantQuestion(Base):
-#     __tablename__ = "plantQuestion"
-
-#     id = Column(Integer, primary_key=True)
-#     idOwner = Column(Integer, ForeignKey("user.id"))
-#     picture = Column(String)
-#     title = Column(String)
-#     dateSent = Column(String)
-
-#     idOwnder = relationship("User", foreign_keys=[idOwner], back_populates="user")
+    sender = relationship("User", foreign_keys=[IdSender])
+    receiver = relationship("User", foreign_keys=[IdReceiver])
