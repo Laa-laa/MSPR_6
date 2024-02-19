@@ -69,6 +69,9 @@ def get_plant_guardings(db: Session):
 def get_plant_guarding_by_id(db: Session, guarding_id: int):
     return db.query(models.PlantGuarding).filter(models.PlantGuarding.Id == guarding_id).first()
 
+def get_user(db: Session, user_id: int):
+    return db.query(models.User).filter(models.User.Id == user_id).first()
+
 ####################################################################################
 ############ POST ##################################################################
 

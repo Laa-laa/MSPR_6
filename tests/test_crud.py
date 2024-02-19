@@ -1,7 +1,13 @@
+import sys
+import os
+
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import unittest
 from sqlalchemy.orm import Session
-from ..backend import crud, models, schemas
-from ..backend.database import SessionLocal, engine
+from backend import crud, models, schemas
+from backend.database import SessionLocal, engine
 from datetime import date
 
 class TestCRUD(unittest.TestCase):
