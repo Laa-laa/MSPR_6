@@ -1,5 +1,29 @@
 from sqlalchemy.orm import Session
 from . import models, schemas
+from passlib.context import CryptContext
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+
+def create_user(db: Session, user: schemas.UserCreate):
+    hashed_password = pwd_context.hash(user.Password)
+    db_user = models.User(**user.dict())
+    db_user.Password = hashed_password
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
+
+def authenticate_user(db: Session, email: str, password: str):
+    user = db.query(models.User).filter(models.User.Email == email).first()
+    if not user:
+        return None
+    if not verify_password(password, user.Password):
+        return None
+    return user
 
 ####################################################################################
 ############ GET ###################################################################
@@ -41,12 +65,12 @@ def create_plant_guarding(db: Session, guarding: schemas.PlantGuardingCreate, ow
 
 
 # Utilisateurs
-def create_user(db: Session, user: schemas.UserCreate):
-    db_user = models.User(**user.dict())
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
-    return db_user
+# def create_user(db: Session, user: schemas.UserCreate):
+#     db_user = models.User(**user.dict())
+#     db.add(db_user)
+#     db.commit()
+#     db.refresh(db_user)
+#     return db_user
 
 def authenticate_user(db: Session, email: str, password: str):
     return db.query(models.User).filter(models.User.Email == email, models.User.Password == password).first()

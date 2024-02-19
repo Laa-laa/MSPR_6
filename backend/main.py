@@ -15,6 +15,24 @@ def get_db():
     finally:
         db.close()
 
+@app.post("/api/users/signin")
+def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+    db_user = crud.create_user(db, user)
+    return db_user
+
+@app.post("/api/users/login")
+def login_user(email: str, password: str, db: Session = Depends(get_db)):
+    user = crud.authenticate_user(db, email, password)
+    if not user:
+        raise HTTPException(status_code=400, detail="Invalid credentials")
+    # Générez ici votre token JWT ou gérer l'authentification de session
+    return {"user_id": user.Id, "email": user.Email}
+
+
+
+
+
+
 # GET /api/plantsQuestions
 @app.get("/api/plantsQuestions")
 def read_plant_questions(db: Session = Depends(get_db)):
@@ -51,10 +69,10 @@ def create_plant_question(question: schemas.PlantQuestionCreate, owner_id: int, 
 def create_plant_guarding(guarding: schemas.PlantGuardingCreate, owner_id: int, db: Session = Depends(get_db)):
     return crud.create_plant_guarding(db, guarding, owner_id)
 
-# POST /api/users/signin
-@app.post("/api/users/signin")
-def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    return crud.create_user(db, user)
+# # POST /api/users/signin
+# @app.post("/api/users/signin")
+# def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+#     return crud.create_user(db, user)
 
 # POST /api/message/:IdSender:IdReceiver
 @app.post("/api/message/{sender_id}/{receiver_id}")
