@@ -1,11 +1,14 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, status
 from sqlalchemy.orm import Session
 from . import crud, models, schemas
 from .database import SessionLocal, engine
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from datetime import timedelta
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 # Dépendance pour obtenir une session de base de données
 def get_db():
@@ -15,20 +18,33 @@ def get_db():
     finally:
         db.close()
 
+
+
+
 @app.post("/api/users/signin")
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = crud.create_user(db, user)
     return db_user
+
+# @app.post("/api/users/login")
+# def login_user(email: str, password: str, db: Session = Depends(get_db)):
+#     user = crud.authenticate_user(db, email, password)
+#     if not user:
+#         raise HTTPException(status_code=400, detail="Invalid credentials")
+#     # Générez ici votre token JWT ou gérer l'authentification de session
+#     return {"user_id": user.Id, "email": user.Email}
 
 @app.post("/api/users/login")
 def login_user(email: str, password: str, db: Session = Depends(get_db)):
     user = crud.authenticate_user(db, email, password)
     if not user:
         raise HTTPException(status_code=400, detail="Invalid credentials")
-    # Générez ici votre token JWT ou gérer l'authentification de session
-    return {"user_id": user.Id, "email": user.Email}
-
-
+    # Generate JWT token
+    access_token_expires = timedelta(minutes=crud.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = crud.create_access_token(
+        data={"sub": user.Email}, expires_delta=access_token_expires
+    )
+    return {"access_token": access_token, "token_type": "bearer"}
 
 
 
