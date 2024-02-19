@@ -7,9 +7,12 @@ from typing import Optional
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-SECRET_KEY = "your-secret-key" 
+SECRET_KEY = "secret-key" 
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
+
+def get_user_by_email(db: Session, email: str):
+    return db.query(models.User).filter(models.User.Email == email).first()
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
@@ -27,7 +30,6 @@ def decode_token(token: str):
         return payload
     except JWTError:
         return None
-
 
 def create_user(db: Session, user: schemas.UserCreate):
     hashed_password = pwd_context.hash(user.Password)
