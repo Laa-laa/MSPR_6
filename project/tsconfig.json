@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "target": "es6",
+    "module": "Commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "noEmit": true,
+    "moduleResolution": "node" 
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+, "src/index.tsx"  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

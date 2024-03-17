@@ -7,7 +7,7 @@ __pycache__/
 # environnement
 venv
 /env
-
+/backend/venv3
 # dependencies
 /node_modules
 /.pnp
