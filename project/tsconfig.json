@@ -16,6 +16,10 @@
     "src/**/*.ts",
     "src/**/*.tsx"
 , "src/index.tsx"  ],
+"primereact/*": ["node_modules/primereact/*"],
+"primeicons/*": ["node_modules/primeicons/*"],
+"primereact": ["node_modules/primereact"],
+
   "exclude": [
     "node_modules"
   ]

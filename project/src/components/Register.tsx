@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { InputText } from 'primereact/inputtext';
+import { InputText } from "primereact/inputtext";
 import { Button } from 'primereact/button';
 
 interface RegisterProps {
@@ -14,6 +14,7 @@ const Register: React.FC<RegisterProps> = ({ onClick }) => {
 
   const handleRegister = () => {
     // Add logic to handle registration
+    console.log('Registration logic goes here');
   };
 
   return (
