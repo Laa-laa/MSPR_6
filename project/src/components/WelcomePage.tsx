@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PlantQuestionsList from "./PlantQuestionsList" 
+import PlantOptionSwitchButton from "./PlantOptionSwitchButton"
 
 interface HomeProps {
   onLogin?: () => void;

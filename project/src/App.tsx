@@ -1,7 +1,9 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Home from "./components/Home";
+
+import HomeUser from "./components/HomeUser";
+import WelcomePage from "./components/WelcomePage";
 import Login from "./components/Login";
 import Register from "./components/Register";
 
@@ -16,9 +18,11 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<WelcomePage />} />
         <Route path="/login" element={<Login onBack={handleBack}/>} />
         <Route path="/register" element={<Register onClick={handleRegister} />} />
+        <Route path="/home" element={<HomeUser />} />
+
       </Routes>
     </BrowserRouter>
   );
