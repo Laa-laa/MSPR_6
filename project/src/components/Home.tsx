@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PlantQuestionsList from "./PlantQuestionsList" 
 
 interface HomeProps {
   onLogin?: () => void;
@@ -22,6 +23,7 @@ const Home: React.FC<HomeProps> = ({ onLogin, onRegister }) => {
           </Link>
         </div>
       </div>
+      <PlantQuestionsList/>
     </div>
   );
 };
