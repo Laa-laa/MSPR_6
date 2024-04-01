@@ -43,7 +43,7 @@ export default function PlantQuestionsList() {
     return (
         <div className="container p-4"> 
             <h2 className="container p-4">Dernières questions posées par nos plant lovers</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="flex flex-col gap-4">
                 {questions.map((question) => (
                     <Card key={question.Id} className="mb-4" style={{ borderRadius: '15px', maxHeight: '100%', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', overflow: 'hidden' }} onClick={() => openModal(question)}>
                         <div className="flex">
