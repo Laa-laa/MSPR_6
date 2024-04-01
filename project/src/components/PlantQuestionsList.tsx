@@ -25,8 +25,7 @@ export default function PlantQuestionsList() {
     }, []);
     return (
         <div className="container p-4"> 
-        <div>tetstsytsfdhsc,sbfv </div>
-            <h2 className="container p-4">Questions populaires</h2>
+            <h2 className="container p-4">Dernières questions posées par nos plant lovers</h2>
             <div className="card flex justify-center" style={{ maxHeight: '500px', borderRadius: '15px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', overflow: 'hidden' }}>
                 {questions.map((question) => (
                     <Card key={question.Id} className="md:w-25rem" style={{ borderRadius: '15px', maxHeight: '100%' }}>

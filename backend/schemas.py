@@ -2,12 +2,15 @@ from typing import List, Optional
 from pydantic import BaseModel
 from datetime import date
 
+
 class Token(BaseModel):
     access_token: str
     token_type: str
 
+
 class TokenData(BaseModel):
     email: Optional[str] = None
+
 
 class UserBase(BaseModel):
     Name: str
@@ -17,8 +20,10 @@ class UserBase(BaseModel):
     IsBotanist: bool
     Birthday: date
 
+
 class UserCreate(UserBase):
     pass
+
 
 class User(UserBase):
     Id: int
@@ -26,14 +31,17 @@ class User(UserBase):
     class Config:
         orm_mode = True
 
+
 class PlantQuestionBase(BaseModel):
     Picture: Optional[str]
     Title: str
     Content: str
     DateSent: date
 
+
 class PlantQuestionCreate(PlantQuestionBase):
     pass
+
 
 class PlantQuestion(PlantQuestionBase):
     Id: int
@@ -42,13 +50,16 @@ class PlantQuestion(PlantQuestionBase):
     class Config:
         orm_mode = True
 
+
 class AnswerBase(BaseModel):
     Content: str
     DateSent: date
     Picture: Optional[str]
 
+
 class AnswerCreate(AnswerBase):
     pass
+
 
 class Answer(AnswerBase):
     Id: int
@@ -58,6 +69,7 @@ class Answer(AnswerBase):
     class Config:
         orm_mode = True
 
+
 class PlantGuardingBase(BaseModel):
     Name: str
     Description: Optional[str]
@@ -65,9 +77,11 @@ class PlantGuardingBase(BaseModel):
     DateStart: date
     DateEnd: Optional[date]
     Location: Optional[str]
-    
+
+
 class PlantGuardingCreate(PlantGuardingBase):
     pass
+
 
 class PlantGuarding(PlantGuardingBase):
     Id: int
@@ -77,12 +91,15 @@ class PlantGuarding(PlantGuardingBase):
     class Config:
         orm_mode = True
 
+
 class MessageBase(BaseModel):
     Content: str
     DateSent: date
 
+
 class MessageCreate(MessageBase):
     pass
+
 
 class Message(MessageBase):
     Id: int
