@@ -6,7 +6,8 @@ import HomeUser from "./components/HomeUser";
 import WelcomePage from "./components/WelcomePage";
 import Login from "./components/Login";
 import Register from "./components/Register";
-
+import AddPlantQuestion from "./components/AddPlantQuestion";
+import AddPlantToGuard from "./components/AddPlantToGuard";
 
 const App: React.FC = () => {
   const handleBack = () => {
@@ -21,7 +22,10 @@ const App: React.FC = () => {
         <Route path="/" element={<WelcomePage />} />
         <Route path="/login" element={<Login onBack={handleBack}/>} />
         <Route path="/register" element={<Register onClick={handleRegister} />} />
-        <Route path="/home" element={<HomeUser />} />
+        <Route path="/home" element={<HomeUser />} >
+              <Route path="demander-conseil" element={ <AddPlantQuestion />} />
+              <Route path="faire-garder" element={ <AddPlantToGuard/> } />
+        </Route>      
 
       </Routes>
     </BrowserRouter>
