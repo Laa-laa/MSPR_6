@@ -18,12 +18,12 @@ jobs:
       #Checks out the source code repository into the runner's workspace using the `actions/checkout@v2` GitHub Action.
       - name: Checkout Repository
         uses: actions/checkout@v2
-      #Sets up Node.js on the runner using the `actions/setup-node@v3` GitHub Action. It specifies that Node.js version 16 should be used.
+      #Sets up Node.js on the runner using the `actions/setup-node@v3` GitHub Action. It specifies that Node.js version 20 should be used.
       - name: Set Up Node.js
         uses: actions/setup-node@v3
         # Allows passing additional parameters to the action, in this case, specifying the Node.js version.
         with:
-          node-version: 16
+          node-version: 20
       #Installs project dependencies using the `npm install` command.
       - name: Install Dependencies
         run: npm install
