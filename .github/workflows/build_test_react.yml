@@ -18,12 +18,6 @@ jobs:
       with:
         node-version: '14' # or the version you're using
       
-    - name: Clean npm cache and reinstall dependencies
-      run: |
-        npm cache clean --force
-        cd project
-        npm install
-
     - name: Install Dependencies
       run: |
         cd project
