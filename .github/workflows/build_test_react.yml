@@ -16,12 +16,13 @@ jobs:
     - name: Install Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '20' # or the version you're using
+        node-version: '14' # or the version you're using
       
-    - name: Install Dependencies
+    - name: Clean npm cache and reinstall dependencies
       run: |
+        npm cache clean --force
         cd project
-        npm install --force
+        npm install
 
     - name: Build and Test
       run: |
