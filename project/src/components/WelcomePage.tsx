@@ -22,6 +22,9 @@ const Home: React.FC<HomeProps> = ({ onLogin, onRegister }) => {
           <Link to="/register">
             <button className="bg-green-900 text-white rounded-full py-2 px-6 hover:bg-green-800">S'inscrire</button>
           </Link>
+          <Link to="/plant-questions">
+            <button className="bg-green-900 text-white rounded-full py-2 px-6 mt-4 hover:bg-green-800">Voir les questions sur les plantes</button>
+          </Link>
         </div>
       </div>
     </div>

@@ -8,6 +8,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import AddPlantQuestion from "./components/AddPlantQuestion";
 import AddPlantToGuard from "./components/AddPlantToGuard";
+import PlantQuestionsList from "./components/PlantQuestionsList";
 
 const App: React.FC = () => {
   const handleBack = () => {
@@ -26,7 +27,7 @@ const App: React.FC = () => {
               <Route path="demander-conseil" element={ <AddPlantQuestion />} />
               <Route path="faire-garder" element={ <AddPlantToGuard/> } />
         </Route>      
-
+        <Route path="/plant-questions" element={<PlantQuestionsList />} />
       </Routes>
     </BrowserRouter>
   );
