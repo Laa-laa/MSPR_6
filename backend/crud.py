@@ -12,7 +12,8 @@ SECRET_KEY = "secret-key"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
-
+def get_requests_without_guard(db: Session):
+    return db.query(models.PlantGuarding).filter(models.PlantGuarding.IdGuard == None).all()
 
 def create_answer(db: Session, answer: schemas.AnswerCreate, sender_id: int, question_id: int):
     db_answer = models.Answer(IdSender=sender_id, IdQuestion=question_id, Content=answer.Content, DateSent=date.today())

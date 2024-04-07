@@ -28,6 +28,9 @@ const Home: React.FC<HomeProps> = ({ onLogin, onRegister }) => {
           <Link to="/home">
             <button className="bg-green-900 text-white rounded-full py-2 px-6 mt-4 hover:bg-green-800">Home</button>
           </Link>
+          <Link to="/plant-guards">
+            <button className="bg-green-900 text-white rounded-full py-2 px-6 mt-4 hover:bg-green-800">Voir les plantes en attente de garde</button>
+          </Link>
         </div>
       </div>
     </div>

@@ -141,7 +141,6 @@ def read_plant_question(question_id: int, db: Session = Depends(get_db)):
 def read_plant_guardings(db: Session = Depends(get_db)):
     return crud.get_plant_guardings(db)
 
-
 # GET /api/plantsGuarding/:id
 @app.get("/api/plantsGuarding/{guarding_id}")
 def read_plant_guarding(guarding_id: int, db: Session = Depends(get_db)):
@@ -149,6 +148,11 @@ def read_plant_guarding(guarding_id: int, db: Session = Depends(get_db)):
     if guarding is None:
         raise HTTPException(status_code=404, detail="Guarding session not found")
     return guarding
+
+# Ajoutez une nouvelle méthode pour récupérer les demandes de garde sans IdGuard
+@app.get("/api/plantsGuarding/requests-without-guard")
+def get_requests_without_guard(db: Session = Depends(get_db)):
+    return crud.get_requests_without_guard(db)
 
 
 # PUT /api/plantsGuarding/:id
