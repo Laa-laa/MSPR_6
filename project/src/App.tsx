@@ -28,6 +28,7 @@ const App: React.FC = () => {
               <Route path="faire-garder" element={ <AddPlantToGuard/> } />
         </Route>      
         <Route path="/plant-questions" element={<PlantQuestionsList />} />
+        <Route path="/add-plant-question" element={<AddPlantQuestion />} />
       </Routes>
     </BrowserRouter>
   );

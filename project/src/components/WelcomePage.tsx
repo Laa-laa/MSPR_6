@@ -12,7 +12,7 @@ const Home: React.FC<HomeProps> = ({ onLogin, onRegister }) => {
   return (
     <div className="flex flex-col items-center justify-end h-screen bg-green-900">
       <div className="bg-white p-8 rounded-t-3xl text-center w-full flex flex-col flex-wrap justify-center h-5/6 shadow-lg">
-      <h1 className="text-3xl text-green-900">A'rosa-je</h1>
+        <h1 className="text-3xl text-green-900">A'rosa-je</h1>
         <h2 className="text-xl mb-4 text-gray-700">Bienvenue</h2>
         <p className="text-lg mb-6 text-gray-700">Connectez-vous ou inscrivez-vous pour prendre soin de vos plantes!</p>
         <div className='buttonContainer'>

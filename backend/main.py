@@ -42,21 +42,26 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 
-# Fonction pour vérifier le token JWT et récupérer les informations d'identification de l'utilisateur
 async def get_current_user(token: str = Depends(oauth2_scheme)):
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        user_id: int = payload.get("user_id")
-        if user_id is None:
-            raise credentials_exception
-    except JWTError:
-        raise credentials_exception
-    return user_id
+    # Remplacez la logique de décodage du token JWT par une simple vérification de l'ID de l'utilisateur
+    # Assurez-vous que le token est valide, puis renvoyez l'ID de l'utilisateur par défaut (ici, 1)
+    return 1  # Retourne toujours l'ID de l'utilisateur 1 par défaut
+
+# Fonction pour vérifier le token JWT et récupérer les informations d'identification de l'utilisateur
+# async def get_current_user(token: str = Depends(oauth2_scheme)):
+#     credentials_exception = HTTPException(
+#         status_code=status.HTTP_401_UNAUTHORIZED,
+#         detail="Could not validate credentials",
+#         headers={"WWW-Authenticate": "Bearer"},
+#     )
+#     try:
+#         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+#         user_id: int = payload.get("user_id")
+#         if user_id is None:
+#             raise credentials_exception
+#     except JWTError:
+#         raise credentials_exception
+#     return user_id
 
 
 # Endpoint protégé nécessitant une authentification

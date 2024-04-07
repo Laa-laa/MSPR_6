@@ -139,3 +139,74 @@ form{
   background: rgba(255, 255, 255, 0.8); /* Adjust the alpha value for transparency */
   z-index: -1;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* AddPlantQuestion */
+.addPlantQuestionContainer {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.addPlantQuestionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.addPlantQuestionHeader h1 {
+  text-align: center;
+  margin: 0;
+}
+
+.addPlantQuestionForm {
+  margin-top: 30px;
+}
+
+.addPlantQuestionForm label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.addPlantQuestionForm input[type="text"],
+.addPlantQuestionForm textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.addPlantQuestionForm input[type="file"] {
+  margin-top: 10px;
+}
+
+.addPlantQuestionForm button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #A3D09E;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.addPlantQuestionForm button:hover {
+  background-color: #355e3b;
+}
