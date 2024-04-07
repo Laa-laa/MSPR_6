@@ -17,6 +17,8 @@ interface Answer {
     Id: number;
     Content: string;
     DateSent: string;
+    IdSender: number;
+    IdQuestion: number; 
 }
 
 const PlantQuestionsList: React.FC = () => {
@@ -49,7 +51,7 @@ const PlantQuestionsList: React.FC = () => {
         setSelectedQuestion(question);
         setVisible(true);
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/answers/${question.Id}`);
+            const response = await axios.get(`http://127.0.0.1:8000/api/answers/${question.Id}`);
             setAnswers(response.data);
         } catch (error) {
             console.error('Error fetching answers:', error);
@@ -61,21 +63,29 @@ const PlantQuestionsList: React.FC = () => {
         setVisible(false);
     };
 
-    const submitAnswer = async () => {
+    const submitAnswer = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+    
         try {
-            const response = await axios.post('http://127.0.0.1:8000/answers/', {
-                Content: answerContent,
-                IdSender: 1, // Replace with the actual sender ID
-                IdQuestion: selectedQuestion!.Id
-            });
-            console.log(response.data);
-            setAnswerContent('');
-            const updatedResponse = await axios.get(`http://127.0.0.1:8000/answers/${selectedQuestion!.Id}`);
-            setAnswers(updatedResponse.data);
+            const response = await axios.post(
+                `http://127.0.0.1:8000/api/answers/?sender_id=${1}&question_id=${selectedQuestion?.Id}`,
+                {
+                    Content: answerContent,
+                    DateSent: new Date().toISOString().split('T')[0], // Format de date ISO 8601 (YYYY-MM-DD)
+                    Picture: null // Vous pouvez remplacer null par l'URL de l'image si nécessaire
+                }
+            );
+
+            if (selectedQuestion) {
+                openModal(selectedQuestion);
+            }
+
+            console.log('Answer submitted successfully:', response.data);
         } catch (error) {
             console.error('Error submitting answer:', error);
         }
     };
+    
 
     useEffect(() => {
         if (searchTerm.trim() === '') {
@@ -127,35 +137,34 @@ const PlantQuestionsList: React.FC = () => {
                 ))}
             </div>
             <Dialog visible={visible} onHide={hideModal} className="bg-white p-4" style={{ width: '90vw', borderRadius: '15px', height: '90vh', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
-    {selectedQuestion && (
-        <div className='flex flex-col justify-around h-full'>
-            <h3 className="text-xl mb-4">{selectedQuestion.Title}</h3>
-            <p>{selectedQuestion.Content}</p>
-            {answers.length > 0 ? (
-                <div className="mt-4">
-                    <h2 className="mb-2 text-lg">Réponses :</h2>
-                    {answers.map((answer) => (
-                        <div key={answer.Id} className="mb-2">
-                            <p>{answer.Content}</p>
-                            <p className="text-sm">Date: {answer.DateSent}</p>
-                        </div>
-                    ))}
-                </div>
-            ) : (
-                <p className="mt-4">Aucune réponse pour le moment.</p>
-            )}
-            <form onSubmit={submitAnswer} className="mt-4">
-                <div className="mb-2">
-                    <label htmlFor="answerContent" className="block mb-1">Votre réponse :</label>
-                    <textarea id="answerContent" value={answerContent} onChange={(e) => setAnswerContent(e.target.value)} required className="w-full border border-gray-300 rounded-md p-2" rows={4}></textarea>
-                </div>
-                <button type="submit" className="bg-green-900 text-white border border-green-900 rounded-full py-2 px-6 mr-4 hover:bg-green-800 hover:border-green-800">Envoyer</button>
-            </form>
-            <p className="mt-4 text-sm">Date: {selectedQuestion.DateSent}</p>
-        </div>
-    )}
-</Dialog>
-
+                {selectedQuestion && (
+                    <div className='flex flex-col justify-around h-full'>
+                        <h3 className="text-xl mb-4">{selectedQuestion.Title}</h3>
+                        <p>{selectedQuestion.Content}</p>
+                        {answers.length > 0 ? (
+                            <div className="mt-4">
+                                <h2 className="mb-2 text-lg">Réponses :</h2>
+                                {answers.map((answer) => (
+                                    <div key={answer.Id} className="mb-2">
+                                        <p>{answer.Content}</p>
+                                        <p className="text-sm">Date: {answer.DateSent}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <p className="mt-4">Aucune réponse pour le moment.</p>
+                        )}
+                        <form onSubmit={submitAnswer} className="mt-4">
+                            <div className="mb-2">
+                                <label htmlFor="answerContent" className="block mb-1">Votre réponse :</label>
+                                <textarea id="answerContent" value={answerContent} onChange={(e) => setAnswerContent(e.target.value)} required className="w-full border border-gray-300 rounded-md p-2" rows={4}></textarea>
+                            </div>
+                            <button type="submit" className="bg-green-900 text-white border border-green-900 rounded-full py-2 px-6 mr-4 hover:bg-green-800 hover:border-green-800">Envoyer</button>
+                        </form>
+                        <p className="mt-4 text-sm">Date: {selectedQuestion.DateSent}</p>
+                    </div>
+                )}
+            </Dialog>
             <PlantOptionSwitchButton />
         </div>
     );

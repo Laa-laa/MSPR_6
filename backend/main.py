@@ -68,13 +68,26 @@ def read_plant_questions_by_owner(owner_id: int, db: Session = Depends(get_db)):
     return questions
 
 
-# Endpoint to create a new answer
-@app.post("/answers/", response_model=schemas.Answer)
+# Endpoint pour créer une nouvelle réponse à une question
+@app.post("/api/answers/", response_model=schemas.Answer)
 def create_answer(answer: schemas.AnswerCreate, sender_id: int, question_id: int, db: Session = Depends(get_db)):
-    return crud.create_answer(db=db, answer=answer, sender_id=sender_id, question_id=question_id)
+    # Vérifiez d'abord si l'utilisateur existe
+    sender = crud.get_user(db, sender_id)
+    if not sender:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    # Vérifiez ensuite si la question à laquelle répondre existe
+    question = crud.get_plant_question_by_id(db, question_id)
+    if not question:
+        raise HTTPException(status_code=404, detail="Plant question not found")
+
+    # Créez la nouvelle réponse dans la base de données
+    db_answer = crud.create_answer(db=db, answer=answer, sender_id=sender_id, question_id=question_id)
+    return db_answer
+
 
 # Endpoint to get all answers for a question
-@app.get("/answers/{question_id}", response_model=list[schemas.Answer])
+@app.get("/api/answers/{question_id}", response_model=list[schemas.Answer])
 def read_answers(question_id: int, db: Session = Depends(get_db)):
     answers = crud.get_answers_by_question(db=db, question_id=question_id)
     if not answers:

@@ -66,9 +66,7 @@ const Login: React.FC<LoginProps> = ({ onBack }) => {
           </div>
         </form>
         {errorMessage && <p className="text-red-600">{errorMessage}</p>}
-        <button className="backButton" onClick={onBack}>
-          Retour
-        </button>
+        <button className="bg-green-900 text-white rounded-full py-1 px-4 mt-4 m-2" onClick={() => window.history.back()}>Retour</button>
       </div>
     </div>
   );
