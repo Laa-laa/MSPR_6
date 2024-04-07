@@ -4,10 +4,13 @@ import { Card } from 'primereact/card';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import PlantOptionSwitchButton from './PlantOptionSwitchButton';
+import { Dialog } from 'primereact/dialog';
+import { Button } from 'primereact/button';
 
 interface PlantGuarding {
     Id: number;
     Name: string;
+    IdGuard : number,
     Description: string;
     Picture: string;
     DateStart: string;
@@ -22,13 +25,16 @@ const PlantGuardingList: React.FC = () => {
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [endDate, setEndDate] = useState<Date | null>(null);
     const [searchLocation, setSearchLocation] = useState('');
+    const [selectedGuarding, setSelectedGuarding] = useState<PlantGuarding | null>(null);
+    const [dialogVisible, setDialogVisible] = useState(false);
 
     useEffect(() => {
         const fetchGuardings = async () => {
             try {
                 const response = await axios.get('http://127.0.0.1:8000/api/plantsGuarding');
-                setGuardings(response.data);
-                setFilteredGuardings(response.data);
+                const guardingsWithNoGuard = response.data.filter((guarding: PlantGuarding) => !guarding.IdGuard);
+                setGuardings(guardingsWithNoGuard);
+                setFilteredGuardings(guardingsWithNoGuard);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching guardings:', error);
@@ -61,12 +67,28 @@ const PlantGuardingList: React.FC = () => {
         setFilteredGuardings(filtered);
     };
 
+    const showGuardingDialog = (guarding: PlantGuarding) => {
+        setSelectedGuarding(guarding);
+        setDialogVisible(true);
+    };
+
+    const hideGuardingDialog = () => {
+        setDialogVisible(false);
+    };
+
+    const handleRegisterAsGuardian = async () => {
+        // Handle registration logic here
+        // Example:
+        if (selectedGuarding) {
+            console.log('Registered as guardian for:', selectedGuarding);
+            // Send request to your API to register as guardian for selectedGuarding
+        }
+        hideGuardingDialog();
+    };
+
     return (
         <div className="container p-4">
-            <button className="bg-green-900 text-white rounded-full py-1 px-4 mt-4 absolute top-0 left-0 m-2" onClick={() => window.history.back()}>Retour</button>
-            <br/>
-            <br/>
-            <h1 className="text-3xl text-green-900 text-center mb-8">Demandes de gardiennage</h1>
+            <h1 className="text-4xl text-green-900 text-center mb-8">Demandes de gardiennage</h1>
             <div className="flex justify-center mb-4">
                 <input
                         type="text"
@@ -96,7 +118,7 @@ const PlantGuardingList: React.FC = () => {
             </div>
             <div className="flex flex-col gap-4">
                 {filteredGuardings.map((guarding) => (
-                    <Card key={guarding.Id} className="mb-4" style={{ borderRadius: '15px', maxHeight: '100%', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', overflow: 'hidden' }}>
+                    <Card key={guarding.Id} className="mb-4" style={{ borderRadius: '15px', maxHeight: '100%', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', overflow: 'hidden' }} onClick={() => showGuardingDialog(guarding)}>
                         <div className="flex">
                             <div className="w-2/3 flex flex-col justify-between flex-grow p-2 justify-between bg-customGreen" style={{ borderRadius: '0 15px 15px 0' }}>
                                 <h3 className='text-white'>{guarding.Name}</h3>
@@ -108,6 +130,27 @@ const PlantGuardingList: React.FC = () => {
                     </Card>
                 ))}
             </div>
+            <Dialog visible={dialogVisible} onHide={hideGuardingDialog} className="bg-white p-4" style={{ width: '80vw', borderRadius: '15px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
+                {selectedGuarding && (
+                    <div>
+                        <h2 className="text-2xl mb-4">{selectedGuarding.Name}</h2>
+                        <div>
+                            <p><strong>Description:</strong></p>
+                            <p>{selectedGuarding.Description}</p>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4 mt-4">
+                            <div>
+                                <p><strong>Débute:</strong> {selectedGuarding.DateStart}</p>
+                                <p><strong>Fini:</strong> {selectedGuarding.DateEnd || "N/A"}</p>
+                            </div>
+                            <p><strong>Localisation:</strong> {selectedGuarding.Location}</p>
+                        </div>
+                        <div className="flex flex-col items-center">
+                            <Button onClick={handleRegisterAsGuardian} label="S'inscrire en tant que gardien" className="bg-green-900 text-white rounded-full py-2 px-6 mt-4 hover:bg-green-800" />
+                        </div>
+                    </div>
+                )}
+            </Dialog>
             <PlantOptionSwitchButton />
         </div>
     );
