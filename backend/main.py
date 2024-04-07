@@ -53,10 +53,11 @@ def create_answer(answer: schemas.AnswerCreate, sender_id: int, question_id: int
 # Endpoint to get all answers for a question
 @app.get("/answers/{question_id}", response_model=list[schemas.Answer])
 def read_answers(question_id: int, db: Session = Depends(get_db)):
-    answers = crud.get_answers(db=db, question_id=question_id)
+    answers = crud.get_answers_by_question(db=db, question_id=question_id)
     if not answers:
         raise HTTPException(status_code=404, detail="Answers not found")
     return answers
+
 
 
 

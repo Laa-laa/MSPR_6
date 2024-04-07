@@ -21,10 +21,8 @@ def create_answer(db: Session, answer: schemas.AnswerCreate, sender_id: int, que
     db.refresh(db_answer)
     return db_answer
 
-def get_answers(db: Session, question_id: int):
+def get_answers_by_question(db: Session, question_id: int):
     return db.query(models.Answer).filter(models.Answer.IdQuestion == question_id).all()
-
-
 
 
 
