@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import NavigationBar from './NavigationBar';
 
 const AddPlantQuestion: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -33,10 +34,10 @@ const AddPlantQuestion: React.FC = () => {
 
   return (
     <div className="bg-white p-8 rounded-t-3xl text-center w-full flex flex-col flex-wrap justify-center h-full shadow-lg">
-      <button className="bg-green-900 text-white rounded-full py-1 px-4 mt-4 absolute top-0 left-0 m-2" onClick={() => window.history.back()}>Retour</button>
+      <NavigationBar />
       <div className="addPlantQuestionHeader mb-8">
-        <br />
-        <h1 className="text-3xl text-green-900">Ajouter une plante à faire garder</h1>
+      <br />
+      <h1 className="text-3xl text-green-900">Ajouter une plante à faire garder</h1>
       </div>
       {errorMessage && <p className="text-red-500">{errorMessage}</p>}
       <form className="addPlantQuestionForm mx-auto" onSubmit={handleSubmit}>
@@ -54,6 +55,7 @@ const AddPlantQuestion: React.FC = () => {
         </div>
         <button className="bg-green-900 text-white rounded-full py-2 px-6 mt-4 hover:bg-green-800" type="submit">Demander conseil</button>
       </form>
+      <button className="bg-green-900 text-white rounded-full py-1 px-4 mt-4 m-2" onClick={() => window.history.back()}>Retour</button>
     </div>
   );
 };

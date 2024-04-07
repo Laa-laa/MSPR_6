@@ -4,6 +4,7 @@ import { Card } from 'primereact/card';
 import { Dialog } from 'primereact/dialog';
 import { Link } from 'react-router-dom';
 import PlantOptionSwitchButton from './PlantOptionSwitchButton';
+import NavigationBar from './NavigationBar';
 
 interface Question {
     Id: number;
@@ -92,8 +93,7 @@ const PlantQuestionsList: React.FC = () => {
 
     return (
         <div className="container p-4">
-            <button className="bg-green-900 text-white rounded-full py-1 px-4 mt-4 absolute top-0 left-0 m-2" onClick={() => window.history.back()}>Retour</button>
-            <br/>
+            <NavigationBar />
             <br/>
             <h1 className="text-3xl text-green-900 text-center mb-8">Questions posées</h1>
             <div className="flex justify-center mb-4">

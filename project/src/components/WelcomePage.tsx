@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PlantQuestionsList from "./PlantQuestionsList" 
 import PlantOptionSwitchButton from "./PlantOptionSwitchButton"
+import NavigationBar from './NavigationBar';
 
 interface HomeProps {
   onLogin?: () => void;
@@ -11,6 +12,7 @@ interface HomeProps {
 const Home: React.FC<HomeProps> = ({ onLogin, onRegister }) => {
   return (
     <div className="flex flex-col items-center justify-end h-screen bg-green-900">
+      <NavigationBar />
       <div className="bg-white p-8 rounded-t-3xl text-center w-full flex flex-col flex-wrap justify-center h-5/6 shadow-lg">
         <h1 className="text-3xl text-green-900">A'rosa-je</h1>
         <h2 className="text-xl mb-4 text-gray-700">Bienvenue</h2>
@@ -21,15 +23,6 @@ const Home: React.FC<HomeProps> = ({ onLogin, onRegister }) => {
           </Link>
           <Link to="/register">
             <button className="bg-green-900 text-white rounded-full py-2 px-6 hover:bg-green-800">S'inscrire</button>
-          </Link>
-          <Link to="/plant-questions">
-            <button className="bg-green-900 text-white rounded-full py-2 px-6 mt-4 hover:bg-green-800">Voir les questions sur les plantes</button>
-          </Link>
-          <Link to="/home">
-            <button className="bg-green-900 text-white rounded-full py-2 px-6 mt-4 hover:bg-green-800">Home</button>
-          </Link>
-          <Link to="/plant-guards">
-            <button className="bg-green-900 text-white rounded-full py-2 px-6 mt-4 hover:bg-green-800">Voir les plantes en attente de garde</button>
           </Link>
         </div>
       </div>

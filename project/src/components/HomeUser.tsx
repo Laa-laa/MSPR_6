@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card } from 'primereact/card';
 import { Dialog } from 'primereact/dialog';
+import NavigationBar from './NavigationBar';
 
 interface User {
     Id: number;
@@ -18,6 +19,7 @@ interface PlantGuarding {
     DateEnd: string | null;
     Location: string;
     IdOwner: number; // Ajouter l'ID du propriétaire
+    IdGuard: number; // Ajouter l'ID du gardien
 }
 
 const Home: React.FC = () => {
@@ -41,7 +43,7 @@ const Home: React.FC = () => {
         const fetchUserGuardings = async () => {
             try {
                 const response = await axios.get(`http://127.0.0.1:8000/api/plantsGuarding?idGuard=${defaultUserId}`);
-                setUserGuardings(response.data);
+                setUserGuardings(response.data.filter((guarding: { IdGuard: number; }) => guarding.IdGuard === defaultUserId)); // Filtrer les gardes où l'utilisateur est Guard
             } catch (error) {
                 console.error('Error fetching user guardings:', error);
             }
@@ -68,8 +70,7 @@ const Home: React.FC = () => {
 
     return (
         <div className="container p-4">
-            <button className="bg-green-900 text-white rounded-full py-1 px-4 mt-4 absolute top-0 left-0 m-2" onClick={() => window.history.back()}>Retour</button>
-            <br/>
+            <NavigationBar />
             <br/>
             {user && (
                 <div>
@@ -98,12 +99,14 @@ const Home: React.FC = () => {
                         <p className="text-lg">Description: {selectedGuarding.Description}</p>
                         <p>Débute: {selectedGuarding.DateStart} - Fini: {selectedGuarding.DateEnd ? selectedGuarding.DateEnd : 'En cours'}</p>
                         <p>Localisation: {selectedGuarding.Location}</p>
-                        <button className="bg-red-900 text-white rounded-full py-2 px-6 mt-4 hover:bg-red-800">Annuler la garde</button>
                         {owner && (
                             <div>
                                 <button className="bg-green-900 text-white rounded-full py-2 px-6 mt-4 hover:bg-green-800">Envoyer un message à {owner.Name} {owner.Surname}</button>
                             </div>
                         )}
+                        <div>
+                            <button className="bg-green-900 text-white rounded-full py-2 px-6 mt-4 hover:bg-red-800">Annuler la garde</button>
+                        </div>
                     </div>
                 )}
             </Dialog>

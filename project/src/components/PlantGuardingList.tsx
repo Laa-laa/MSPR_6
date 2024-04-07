@@ -6,6 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import PlantOptionSwitchButton from './PlantOptionSwitchButton';
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
+import NavigationBar from './NavigationBar';
 
 interface PlantGuarding {
     Id: number;
@@ -88,8 +89,7 @@ const PlantGuardingList: React.FC = () => {
 
     return (
         <div className="container p-4">
-            <button className="bg-green-900 text-white rounded-full py-1 px-4 mt-4 absolute top-0 left-0 m-2" onClick={() => window.history.back()}>Retour</button>
-            <br/>
+            <NavigationBar />
             <br/>
             <h1 className="text-4xl text-green-900 text-center mb-8">Demandes de gardiennage</h1>
             <div className="flex justify-center mb-4">
