@@ -25,7 +25,8 @@ const App: React.FC = () => {
         <Route path="/home" element={<HomeUser />} >
               <Route path="demander-conseil" element={ <AddPlantQuestion />} />
               <Route path="faire-garder" element={ <AddPlantToGuard/> } />
-        </Route>      
+        </Route>
+        <Route path="/demander-conseil" element ={<AddPlantQuestion/>} /> 
 
       </Routes>
     </BrowserRouter>
