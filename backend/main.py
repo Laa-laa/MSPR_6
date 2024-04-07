@@ -42,7 +42,30 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 
+# Fonction pour obtenir un utilisateur par son ID
+@app.get("/api/users/{user_id}", response_model=schemas.User)
+def read_user(user_id: int, db: Session = Depends(get_db)):
+    user = crud.get_user(db, user_id)
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user
 
+# GET /api/plantsGuarding/owner/:owner_id
+@app.get("/api/plantsGuarding/owner/{owner_id}")
+def read_plant_guarding_by_owner(owner_id: int, db: Session = Depends(get_db)):
+    guardings = crud.get_plant_guardings_by_owner(db, owner_id)
+    if not guardings:
+        raise HTTPException(status_code=404, detail="Plant guardings not found for this owner")
+    return guardings
+
+
+# GET /api/plantsQuestions/owner/:owner_id
+@app.get("/api/plantsQuestions/owner/{owner_id}")
+def read_plant_questions_by_owner(owner_id: int, db: Session = Depends(get_db)):
+    questions = crud.get_plant_questions_by_owner(db, owner_id)
+    if not questions:
+        raise HTTPException(status_code=404, detail="Plant questions not found for this owner")
+    return questions
 
 
 # Endpoint to create a new answer
@@ -85,21 +108,21 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 #     return user_id
 
 
-# Endpoint protégé nécessitant une authentification
-@app.delete("/api/users/{user_id}")
-async def delete_user(
-    user_id: int,
-    current_user: int = Depends(get_current_user),
-    db: Session = Depends(get_db),
-):
-    # Vérifiez si l'utilisateur courant est autorisé à supprimer le compte utilisateur
-    if current_user != user_id:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="You are not allowed to delete this user",
-        )
-    # Si l'utilisateur est autorisé, supprimez le compte utilisateur
-    return crud.delete_user(db, user_id)
+# # Endpoint protégé nécessitant une authentification
+# @app.delete("/api/users/{user_id}")
+# async def delete_user(
+#     user_id: int,
+#     current_user: int = Depends(get_current_user),
+#     db: Session = Depends(get_db),
+# ):
+#     # Vérifiez si l'utilisateur courant est autorisé à supprimer le compte utilisateur
+#     if current_user != user_id:
+#         raise HTTPException(
+#             status_code=status.HTTP_403_FORBIDDEN,
+#             detail="You are not allowed to delete this user",
+#         )
+#     # Si l'utilisateur est autorisé, supprimez le compte utilisateur
+#     return crud.delete_user(db, user_id)
 
 
 @app.post("/api/users/signin")
@@ -153,22 +176,6 @@ def read_plant_guarding(guarding_id: int, db: Session = Depends(get_db)):
 @app.get("/api/plantsGuarding/requests-without-guard")
 def get_requests_without_guard(db: Session = Depends(get_db)):
     return crud.get_requests_without_guard(db)
-
-
-# PUT /api/plantsGuarding/:id
-@app.put("/api/plantsGuarding/{guarding_id}")
-def update_plant_guarding(
-    guarding_id: int,
-    guarding: schemas.PlantGuardingCreate,
-    db: Session = Depends(get_db),
-):
-    return crud.update_plant_guarding(db, guarding_id, guarding)
-
-
-# DELETE /api/plantsGuarding/:id
-@app.delete("/api/plantsGuarding/{guarding_id}")
-def delete_plant_guarding(guarding_id: int, db: Session = Depends(get_db)):
-    return crud.delete_plant_guarding(db, guarding_id)
 
 
 # POST /api/plantsQuestions

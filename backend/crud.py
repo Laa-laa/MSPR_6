@@ -12,6 +12,14 @@ SECRET_KEY = "secret-key"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
+
+
+def get_plant_guardings_by_owner(db: Session, owner_id: int):
+    return db.query(models.PlantGuarding).filter(models.PlantGuarding.IdOwner == owner_id).all()
+
+def get_plant_questions_by_owner(db: Session, owner_id: int):
+    return db.query(models.PlantQuestion).filter(models.PlantQuestion.IdOwner == owner_id).all()
+
 def get_requests_without_guard(db: Session):
     return db.query(models.PlantGuarding).filter(models.PlantGuarding.IdGuard == None).all()
 
