@@ -42,6 +42,26 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 
+
+
+
+# Endpoint to create a new answer
+@app.post("/answers/", response_model=schemas.Answer)
+def create_answer(answer: schemas.AnswerCreate, sender_id: int, question_id: int, db: Session = Depends(get_db)):
+    return crud.create_answer(db=db, answer=answer, sender_id=sender_id, question_id=question_id)
+
+# Endpoint to get all answers for a question
+@app.get("/answers/{question_id}", response_model=list[schemas.Answer])
+def read_answers(question_id: int, db: Session = Depends(get_db)):
+    answers = crud.get_answers(db=db, question_id=question_id)
+    if not answers:
+        raise HTTPException(status_code=404, detail="Answers not found")
+    return answers
+
+
+
+
+
 async def get_current_user(token: str = Depends(oauth2_scheme)):
     # Remplacez la logique de décodage du token JWT par une simple vérification de l'ID de l'utilisateur
     # Assurez-vous que le token est valide, puis renvoyez l'ID de l'utilisateur par défaut (ici, 1)

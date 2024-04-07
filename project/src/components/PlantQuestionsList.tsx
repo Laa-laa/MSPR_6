@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card } from 'primereact/card';
 import { Dialog } from 'primereact/dialog';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-import PlantOptionSwitchButton from './PlantOptionSwitchButton'; // Assurez-vous d'importer correctement le chemin du composant PlantOptionSwitchButton
+import { Link } from 'react-router-dom';
+import PlantOptionSwitchButton from './PlantOptionSwitchButton';
 
 interface Question {
     Id: number;
@@ -14,50 +14,66 @@ interface Question {
 
 export default function PlantQuestionsList() {
     const [questions, setQuestions] = useState<Question[]>([]);
+    const [filteredQuestions, setFilteredQuestions] = useState<Question[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null);
     const [visible, setVisible] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         const fetchQuestions = async () => {
             try {
                 const response = await axios.get('http://127.0.0.1:8000/api/plantsQuestions');
-                console.log(response.data); // Log received data
                 setQuestions(response.data);
-                setLoading(false); // Set loading to false after fetching data
+                setLoading(false);
             } catch (error) {
                 console.error('Error fetching questions:', error);
-                setLoading(false); // Set loading to false in case of error
+                setLoading(false);
             }
         };
 
         fetchQuestions();
     }, []);
 
-    // Function to handle opening the modal and setting the selected question
+    // Filtrer les questions en fonction du terme de recherche
+    useEffect(() => {
+        if (searchTerm.trim() === '') {
+            setFilteredQuestions(questions);
+        } else {
+            const filtered = questions.filter((question) => {
+                return (
+                    question.Title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    question.Content.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+            });
+            setFilteredQuestions(filtered);
+        }
+    }, [searchTerm, questions]);
+
     const openModal = (question: Question) => {
         setSelectedQuestion(question);
         setVisible(true);
     };
 
-    // Function to handle closing the modal
     const hideModal = () => {
         setVisible(false);
     };
 
     return (
-        <div className="container p-4"> 
+        <div className="container p-4">
             <button className="bg-green-900 text-white rounded-full py-1 px-4 mt-4 absolute top-0 left-0 m-2" onClick={() => window.history.back()}>Retour</button>
-            <br />
-            <br />
             <h1 className="text-3xl text-green-900 text-center mb-8">Questions posées</h1>
-            <Link to="/add-plant-question">
-                <button className="bg-green-900 text-white rounded-full py-2 px-6 mt-4 hover:bg-green-800 ">Ajouter une question</button>
-            </Link>
-            <br />
-            <br />
+            <div className="flex justify-center mb-4">
+                <input
+                    type="text"
+                    placeholder="Rechercher..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="border border-gray-300 rounded-md p-2 w-full max-w-md"
+                />
+            </div>
             <div className="flex flex-col gap-4">
-                {questions.map((question) => (
+                {filteredQuestions.map((question) => (
                     <Card key={question.Id} className="mb-4" style={{ borderRadius: '15px', maxHeight: '100%', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', overflow: 'hidden' }} onClick={() => openModal(question)}>
                         <div className="flex">
                             <div className="w-1/3 overflow-hidden" style={{ borderRadius: '15px 0 0 15px' }}>

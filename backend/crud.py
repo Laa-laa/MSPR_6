@@ -4,12 +4,28 @@ from passlib.context import CryptContext
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
 from typing import Optional
+from datetime import date
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 SECRET_KEY = "secret-key"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
+
+
+
+def create_answer(db: Session, answer: schemas.AnswerCreate, sender_id: int, question_id: int):
+    db_answer = models.Answer(IdSender=sender_id, IdQuestion=question_id, Content=answer.Content, DateSent=date.today())
+    db.add(db_answer)
+    db.commit()
+    db.refresh(db_answer)
+    return db_answer
+
+def get_answers(db: Session, question_id: int):
+    return db.query(models.Answer).filter(models.Answer.IdQuestion == question_id).all()
+
+
+
 
 
 def get_user_by_email(db: Session, email: str):
