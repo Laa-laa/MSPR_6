@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Card } from 'primereact/card';
 import { Dialog } from 'primereact/dialog';
 import NavigationBar from './NavigationBar';
+import { Link } from 'react-router-dom';
 
 interface User {
     Id: number;
@@ -77,6 +78,15 @@ const Home: React.FC = () => {
                     <h1 className="text-3xl text-green-900 text-center mb-8">Bonjour {user.Name} {user.Surname}</h1>
                 </div>
             )}
+            <div className='flex justify-center  buttonContainer'>
+                <Link to="/login">
+                    <button className="bg-green-900 text-white border border-green-900 rounded-full py-2 px-6 mr-4 hover:bg-green-800 hover:border-green-800">Modifier profil</button>
+                </Link>
+                <Link to="/login">
+                    <button className="bg-red-900 text-white rounded-full py-2 px-6 hover:bg-red-800">Déconnexion</button>
+                </Link>
+            </div>
+            <br/>
             <h2 className="text-xl text-green-900 mb-4">Liste des gardes</h2>
             <div className="flex flex-col gap-4">
                 {userGuardings.map((guarding) => (
