@@ -41,6 +41,42 @@ SECRET_KEY = "your-secret-key"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
+def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+    # credentials_exception = HTTPException(
+    #     status_code=status.HTTP_401_UNAUTHORIZED,
+    #     detail="Could not validate credentials",
+    #     headers={"WWW-Authenticate": "Bearer"},
+    # )
+    # try:
+    #     payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+    #     email: Optional[str] = payload.get("sub")
+    #     if email is None:
+    #         raise credentials_exception
+    # except JWTError:
+    #     raise credentials_exception
+    # user = crud.get_user_by_email(db, email)
+    # if user is None:
+    #     raise credentials_exception
+    # return user
+    return 1
+
+# @app.put("/api/users/me")
+# def update_current_user_info(user_update: schemas.UserUpdate, current_user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
+#     user = crud.get_user(db, current_user_id)
+#     if user is None:
+#         raise HTTPException(status_code=404, detail="User not found")
+#     updated_user = crud.update_user(db, current_user_id, user_update)
+#     return updated_user
+
+@app.put("/api/users/{user_id}", response_model=schemas.User)
+def update_user(user_id: int, user_update: schemas.UserUpdate, db: Session = Depends(get_db)):
+    db_user = crud.get_user(db, user_id)
+    if db_user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Update user data
+    updated_user = crud.update_user(db, user_id, user_update)
+    return updated_user
 
 # Fonction pour obtenir un utilisateur par son ID
 @app.get("/api/users/{user_id}", response_model=schemas.User)

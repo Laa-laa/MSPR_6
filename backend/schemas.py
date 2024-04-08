@@ -24,6 +24,15 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     pass
 
+class UserUpdate(BaseModel):
+    Name: Optional[str]
+    Surname: Optional[str]
+    Email: Optional[str]
+    Birthday: Optional[date]
+    Password: Optional[str]
+
+    class Config:
+        orm_mode = True
 
 class User(UserBase):
     Id: int

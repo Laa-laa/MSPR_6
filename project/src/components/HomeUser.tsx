@@ -170,7 +170,7 @@ const Home: React.FC = () => {
                 </div>
             )}
             <div className='flex justify-center  buttonContainer'>
-                <Link to="/login">
+                <Link to="/edit-user">
                     <button className="bg-green-900 text-white border border-green-900 rounded-full py-2 px-6 mr-4 hover:bg-green-800 hover:border-green-800">Modifier profil</button>
                 </Link>
                 <Link to="/login">

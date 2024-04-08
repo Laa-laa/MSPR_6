@@ -151,23 +151,29 @@ form{
 
 
 
-
-/* Ajouter ce style dans votre fichier CSS */
-
-.custom-select-button {
-  border-radius: 20px; /* Bords arrondis */
-  background-color: #4CAF50; /* Couleur de fond */
-  color: white; /* Couleur du texte */
-  padding: 10px 20px; /* Espacement interne */
-  font-size: 16px; /* Taille de la police */
-  border: none; /* Supprimer la bordure */
-  cursor: pointer; /* Curseur de la souris */
-  transition: background-color 0.3s; /* Transition en douceur */
+.button-container {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-.custom-select-button:hover {
-  background-color: #45a049; /* Changement de couleur au survol */
+.p-button:not(.p-disabled):hover {
+  background-color: #f0f0f0; /* Changer la couleur de fond lors du survol */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ajouter une ombre lors du survol */
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
+
+.p-button:not(.p-disabled) {
+  color: #333; /* Changer la couleur du texte */
+  border: 1px solid #ccc; /* Ajouter une bordure */
+  border-radius: 20px; /* Augmenter le rayon de bordure */
+  padding: 10px 20px; /* Ajuster le rembourrage */
+  font-weight: bold; /* Mettre en gras */
+  cursor: pointer; /* Définir le curseur */
+  transition: color 0.3s, border-color 0.3s, border-radius 0.3s, padding 0.3s, font-weight 0.3s;
+}
+
 
 
 

@@ -13,6 +13,17 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 
+def update_user(db: Session, user_id: int, user_update: schemas.UserUpdate):
+    db_user = db.query(models.User).filter(models.User.Id == user_id).first()
+    if db_user is None:
+        return None
+    
+    for attr, value in user_update.dict().items():
+        setattr(db_user, attr, value)
+    
+    db.commit()
+    db.refresh(db_user)
+    return db_user
 
 def get_plant_guardings_by_owner(db: Session, owner_id: int):
     return db.query(models.PlantGuarding).filter(models.PlantGuarding.IdOwner == owner_id).all()
