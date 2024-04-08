@@ -88,9 +88,8 @@ const PlantGuardingList: React.FC = () => {
     };
 
     return (
+        <div><NavigationBar />
         <div className="container p-4">
-            <NavigationBar />
-            <br/>
             <h1 className="text-4xl text-green-900 text-center mb-8">Demandes de gardiennage</h1>
             <div className="flex justify-center mb-4">
                 <input
@@ -125,7 +124,7 @@ const PlantGuardingList: React.FC = () => {
                         <div className="flex">
                             <div className="w-2/3 flex flex-col justify-between flex-grow p-2 justify-between bg-customGreen" style={{ borderRadius: '0 15px 15px 0' }}>
                                 <h3 className='text-white'>{guarding.Name}</h3>
-                                <p className='text-white text-s'>Débute: {guarding.DateStart} Fini: {guarding.DateEnd}</p>
+                                <p className='text-white text-s'>Débute: {guarding.DateStart} Finit: {guarding.DateEnd}</p>
                                 <p className='text-white text-s'>Localisation: {guarding.Location}</p>
                                 <p className='text-white text-xs'>{guarding.Description.slice(0, 20)}{guarding.Description.length > 20 ? '...' : ''}</p>
                             </div>
@@ -155,6 +154,7 @@ const PlantGuardingList: React.FC = () => {
                 )}
             </Dialog>
             <PlantOptionSwitchButton />
+        </div>
         </div>
     );
 };

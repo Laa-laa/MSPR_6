@@ -24,10 +24,8 @@ const App: React.FC = () => {
         <Route path="/" element={<WelcomePage />} />
         <Route path="/login" element={<Login onBack={handleBack}/>} />
         <Route path="/register" element={<Register onClick={handleRegister} />} />
-        <Route path="/home" element={<HomeUser />} >
-              <Route path="demander-conseil" element={ <AddPlantQuestion />} />
-              <Route path="faire-garder" element={ <AddPlantToGuard/> } />
-        </Route>      
+        <Route path="/home" element={<HomeUser />} />
+        <Route path="/faire-garder" element={ <AddPlantToGuard/> } /> 
         <Route path="/plant-questions" element={<PlantQuestionsList />} />
         <Route path="/add-plant-question" element={<AddPlantQuestion />} />
         <Route path="/plant-guards" element={<PlantGuardingList />} />
