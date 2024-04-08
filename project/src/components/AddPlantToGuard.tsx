@@ -28,6 +28,7 @@ const AddPlantToGuard: React.FC = () => {
         event.preventDefault();
         try {
             const response = await axios.post(`http://127.0.0.1:8000/api/plantsGuarding?owner_id=${defaultUserId}`, {
+                Picture: '',
                 Name: formData.name,
                 Description: formData.description,
                 DateStart: formData.dateStart.toISOString().split('T')[0],
