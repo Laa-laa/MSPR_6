@@ -25,8 +25,8 @@ const Register: React.FC<RegisterProps> = ({ onClick }) => {
         <InputText value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Prénom" className="border border-secondary rounded-full p-2 h-12" />
         <InputText value={email} onChange={(e) => setEmail(e.target.value)} placeholder="e-mail" className="border border-secondary rounded-full p-2 h-12" />
         <InputText value={password} onChange={(e) => setPassword(e.target.value)} placeholder="mot de passe" className="border border-secondary rounded-full p-2 h-12" />
-        <Button label="Submit" className="bg-color-secondary text-white rounded-full p-2 hover:bg-green-600" onClick={handleRegister} />
-        <button className="bg-green-900 text-white rounded-full py-1 px-4 mt-4 m-2" onClick={() => window.history.back()}>Retour</button>
+        <Button label="Valider" className="bg-green-900 text-white rounded-full py-2 px-6 mt-4 hover:bg-green-800 mr-4" onClick={handleRegister} />
+        <button className="bg-green-900 text-white rounded-full py-2 px-6 mt-4 hover:bg-green-800 mr-4" onClick={() => window.history.back()}>Retour</button>
       </div>
     </div>
   );

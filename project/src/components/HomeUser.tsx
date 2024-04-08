@@ -183,18 +183,22 @@ const Home: React.FC = () => {
 
             <h2 className="text-xl text-green-900 mb-4">Sessions de garde créées</h2>
             <div className="flex flex-col gap-4">
-                {ownerGuardings.map((guarding) => (
-                    <Card
-                        key={guarding.Id}
-                        className="p-4 cursor-pointer"
-                        onClick={() => showGuardingDialog(guarding)}
-                        style={{ borderRadius: '15px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}
-                    >
-                        <h3>{guarding.Name}</h3>
-                        <p>Débute: {guarding.DateStart} - Finit: {guarding.DateEnd ? guarding.DateEnd : 'En cours'}</p>
-                        <p>Localisation: {guarding.Location}</p>
-                    </Card>
-                ))}
+                {ownerGuardings.length === 0 ? ( <p>Vous n'avez pas créé de sessions de garde.</p> ) : (
+                    <div className="flex flex-col gap-4">
+                        {ownerGuardings.map((guarding) => (
+                            <Card
+                                key={guarding.Id}
+                                className="p-4 cursor-pointer"
+                                onClick={() => showGuardingDialog(guarding)}
+                                style={{ borderRadius: '15px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}
+                            >
+                                <h3>{guarding.Name}</h3>
+                                <p>Débute: {guarding.DateStart} - Finit: {guarding.DateEnd ? guarding.DateEnd : 'En cours'}</p>
+                                <p>Localisation: {guarding.Location}</p>
+                            </Card>
+                        ))}
+                    </div>
+                )}
             </div>
             <Dialog visible={guardingDialogVisible} onHide={hideGuardingDialog} className="bg-white p-4" style={{ width: '90vw', borderRadius: '15px', height: '50vh', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
                 {selectedGuarding && (
@@ -205,31 +209,35 @@ const Home: React.FC = () => {
                         <p>Localisation: {selectedGuarding.Location}</p>
                         {owner && (
                             <div>
-                                <button className="bg-green-900 text-white rounded-full py-2 px-6 mt-4 hover:bg-green-800 mr-4">Discussion avec {owner.Name} {owner.Surname}</button>
+                                <button className="bg-green-900 text-white rounded-full py-2 px-6 mt-4 hover:bg-green-800 mr-4">Discussion</button>
                             </div>
                         )}
                         <button className="bg-red-900 text-white rounded-full py-2 px-6 mt-4 hover:bg-red-800">Annuler la garde</button>
                     </div>
                 )}
             </Dialog>
-
+            <br/>
             <h2 className="text-xl text-green-900 mb-4">Liste des plantes que vous gardez</h2>
             <div className="flex flex-col gap-4">
-                {userGuardings.map((guarding) => (
-                    <Card
-                        key={guarding.Id}
-                        className="p-4 cursor-pointer"
-                        onClick={() => showGuardingDialog(guarding)}
-                        style={{ borderRadius: '15px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}
-                    >
-                        <h3>{guarding.Name}</h3>
-                        <p>Débute: {guarding.DateStart} - Finit: {guarding.DateEnd ? guarding.DateEnd : 'En cours'}</p>
-                        <p>Localisation: {guarding.Location}</p>
-                        {owner && (
-                            <p>Propriétaire: {owner.Name} {owner.Surname}</p>
-                        )}
-                    </Card>
-                ))}
+                {userGuardings.length === 0 ? ( <p>Vous ne gardez pas de plantes.</p> ) : (
+                    <div className="flex flex-col gap-4">
+                        {userGuardings.map((guarding) => (
+                            <Card
+                                key={guarding.Id}
+                                className="p-4 cursor-pointer"
+                                onClick={() => showGuardingDialog(guarding)}
+                                style={{ borderRadius: '15px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}
+                            >
+                                <h3>{guarding.Name}</h3>
+                                <p>Débute: {guarding.DateStart} - Finit: {guarding.DateEnd ? guarding.DateEnd : 'En cours'}</p>
+                                <p>Localisation: {guarding.Location}</p>
+                                {owner && (
+                                    <p>Propriétaire: {owner.Name} {owner.Surname}</p>
+                                )}
+                            </Card>
+                        ))}
+                    </div>
+                )}
             </div>
             <Dialog visible={guardingDialogVisible} onHide={hideGuardingDialog} className="bg-white p-4" style={{ width: '90vw', borderRadius: '15px', height: '50vh', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
                 {selectedGuarding && (
@@ -247,20 +255,24 @@ const Home: React.FC = () => {
                     </div>
                 )}
             </Dialog>
-
+            <br/>
             <h2 className="text-xl text-green-900 mb-4">Questions posées</h2>
             <div className="flex flex-col gap-4">
-                {userQuestions.map((question) => (
-                    <Card
-                        key={question.Id}
-                        className="p-4 cursor-pointer"
-                        onClick={() => showQuestionDialog(question)}
-                        style={{ borderRadius: '15px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}
-                    >
-                        <h3>{question.Title}</h3>
-                        <p>Date: {question.DateSent}</p>
-                    </Card>
-                ))}
+                {userGuardings.length === 0 ? ( <p>Vous n'avez pas posé de question.</p> ) : (
+                    <div className="flex flex-col gap-4">
+                        {userQuestions.map((question) => (
+                            <Card
+                                key={question.Id}
+                                className="p-4 cursor-pointer"
+                                onClick={() => showQuestionDialog(question)}
+                                style={{ borderRadius: '15px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}
+                            >
+                                <h3>{question.Title}</h3>
+                                <p>Date: {question.DateSent}</p>
+                            </Card>
+                        ))}
+                    </div>
+                )}
             </div>
             <Dialog visible={questionDialogVisible} onHide={hideQuestionDialog} className="bg-white p-4" style={{ width: '90vw', borderRadius: '15px', height: '90vh', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
                 {selectedQuestion && (

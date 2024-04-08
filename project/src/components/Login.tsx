@@ -40,7 +40,7 @@ const Login: React.FC<LoginProps> = ({ onBack }) => {
         <h2 className="text-xl mb-4 text-gray-700">Connexion</h2>
         <form>
           <label>
-            Username:
+            Username : 
             <input
               type="text"
               value={username}
@@ -50,7 +50,7 @@ const Login: React.FC<LoginProps> = ({ onBack }) => {
           </label>
           <br />
           <label>
-            Password:
+            Password :
             <input
               type="password"
               value={password}
@@ -66,7 +66,7 @@ const Login: React.FC<LoginProps> = ({ onBack }) => {
           </div>
         </form>
         {errorMessage && <p className="text-red-600">{errorMessage}</p>}
-        <button className="bg-green-900 text-white rounded-full py-1 px-4 mt-4 m-2" onClick={() => window.history.back()}>Retour</button>
+        
       </div>
     </div>
   );
