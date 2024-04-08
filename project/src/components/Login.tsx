@@ -1,72 +1,65 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 interface LoginProps {
   onBack: () => void;
 }
 
 const Login: React.FC<LoginProps> = ({ onBack }) => {
-  const [username, setUsername] = useState('');
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const handleBack = () => {
+    navigate(-1); // Utilisez -1 pour revenir à la page précédente
+  };
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
+      const response = await axios.post('http://localhost:8000/api/users/signin', {  // Assurez-vous que le chemin de l'API est correct
+        email,
+        password
       });
-
-      if (response.ok) {
-        console.log('Login successful!');
-        // Add redirection or other actions after successful login
-      } else {
-        const errorData = await response.json();
-        setErrorMessage(errorData.error || 'Login failed');
-        console.error('Login failed:', errorData.error || 'Unknown error');
-      }
+      // Ici vous pouvez traiter la réponse, par exemple en redirigeant l'utilisateur
+      setSuccessMessage('Connexion réussie ! Redirection vers le tableau de bord...'); // Message de succès
+      setTimeout(() => {
+        navigate('/dashboard'); // Rediriger l'utilisateur vers le tableau de bord après la connexion réussie
+      }, 2000); // Redirection après 2 secondes
     } catch (error) {
-      console.error('An error occurred during login:', error);
-      setErrorMessage('An error occurred during login');
+      setError('Email ou mot de passe incorrect.');
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-end h-screen bg-green-900">
-      <div className="bg-white p-8 rounded-t-3xl text-center w-full flex flex-col flex-wrap justify-center h-5/6 shadow-lg">
-      <h1 className="text-3xl text-green-900">A'rosa-je</h1>
-        <h2 className="text-xl mb-4 text-gray-700">Connexion</h2>
-        <form>
-          <label>
-            Username:
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="border border-gray-300 rounded-full p-2 mb-4"
-            />
-          </label>
-          <br />
-          <label>
-            Password:
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="border border-gray-300 rounded-full p-2 mb-4"
-            />
-          </label>
-          <br />
-          <div className='buttonContainer'>
-            <button className="bg-green-900 text-white rounded-full py-2 px-6 mr-4 hover:bg-green-800" type="button" onClick={handleLogin}>
-              Se connecter
-            </button>
-          </div>
-        </form>
-        {errorMessage && <p className="text-red-600">{errorMessage}</p>}
-        <button className="backButton" onClick={onBack}>
+    <div className="max-w-md mx-auto p-6 bg-white rounded-lg justify-center">
+      <h2 className="text-2xl font-semibold mb-6">Connexion</h2>
+      {error && <p className="text-red-500">{error}</p>}
+      {successMessage && <p className="text-green-500">{successMessage}</p>}
+      <div className="flex flex-col space-y-4">
+        <input
+          type="text"
+          placeholder="Email"
+          className="border border-secondary rounded-full p-2 h-12"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Mot de passe"
+          className="border border-secondary rounded-full p-2 h-12"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button
+          className="bg-color-secondary text-white rounded-full p-2 hover:bg-green-600"
+          onClick={handleLogin}
+        >
+          Connexion
+        </button>
+        <button className="backButton" onClick={handleBack}>
           Retour
         </button>
       </div>

@@ -5,17 +5,41 @@ from datetime import datetime, timedelta
 from jose import JWTError, jwt
 from typing import Optional
 
+from database import SessionLocal
+
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-SECRET_KEY = "secret-key"
+SECRET_KEY = "your-secret-key"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
-
+# Fonction pour obtenir un utilisateur par email
 def get_user_by_email(db: Session, email: str):
     return db.query(models.User).filter(models.User.Email == email).first()
 
+# Fonction pour créer un utilisateur dans la base de données
+def create_user(db: Session, user: schemas.UserCreate):
+    hashed_password = pwd_context.hash(user.Password)
+    db_user = models.User(Name=user.Name, Surname=user.Surname, Email=user.Email, Password=hashed_password, IsBotanist=user.IsBotanist, Birthday=user.Birthday)
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
 
+# Fonction pour vérifier les informations d'identification de l'utilisateur lors de la connexion
+def authenticate_user(db: Session, email: str, password: str):
+    user = get_user_by_email(db, email)
+    if not user:
+        return None
+    if not verify_password(password, user.Password):
+        return None
+    return user
+
+# Fonction pour vérifier le mot de passe
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
+
+# Fonction pour générer un token JWT
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
     if expires_delta:
@@ -26,37 +50,13 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
-
+# Fonction pour décoder le token JWT
 def decode_token(token: str):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         return payload
     except JWTError:
         return None
-
-
-def create_user(db: Session, user: schemas.UserCreate):
-    hashed_password = pwd_context.hash(user.Password)
-    db_user = models.User(**user.dict())
-    db_user.Password = hashed_password
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
-    return db_user
-
-
-def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
-
-
-def authenticate_user(db: Session, email: str, password: str):
-    user = db.query(models.User).filter(models.User.Email == email).first()
-    if not user:
-        return None
-    if not verify_password(password, user.Password):
-        return None
-    return user
-
 
 ####################################################################################
 ############ GET ###################################################################

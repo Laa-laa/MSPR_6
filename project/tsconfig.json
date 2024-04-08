@@ -2,7 +2,7 @@
   "compilerOptions": {
     "jsx": "react",
     "target": "es6",
-    "module": "Commonjs",
+    "module": "esnext",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -10,7 +10,16 @@
     "removeComments": true,
     "sourceMap": true,
     "noEmit": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true
   },
   "include": [
     "src/**/*.ts",
@@ -18,9 +27,16 @@
     "src/index.tsx",
     "PlantQuestionsList.tsx"
   ],
-  "primereact/*": ["node_modules/primereact/*"],
-  "primeicons/*": ["node_modules/primeicons/*"],
-  "primereact": ["node_modules/primereact"],
-
-  "exclude": ["node_modules"]
+  "primereact/*": [
+    "node_modules/primereact/*"
+  ],
+  "primeicons/*": [
+    "node_modules/primeicons/*"
+  ],
+  "primereact": [
+    "node_modules/primereact"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
