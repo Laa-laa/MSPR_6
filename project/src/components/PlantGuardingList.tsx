@@ -101,20 +101,24 @@ const PlantGuardingList: React.FC = () => {
                     />
             </div>
             <div className="flex justify-between mb-4">
-                <div>
+                <div className="flex flex-col">
+                    <label htmlFor="startDate" className="text-sm text-gray-600">Date de début</label>
                     <DatePicker
+                        id="startDate"
                         selected={startDate}
                         onChange={(date: Date | null) => setStartDate(date)}
-                        placeholderText="Date de début"
-                        className="border border-gray-300 rounded-md p-2 mr-1"
+                        placeholderText="Sélectionnez une date"
+                        className="border border-gray-300 rounded-md p-2 text-sm"
                     />
                 </div>
-                <div>
+                <div className="flex flex-col">
+                    <label htmlFor="endDate" className="text-sm text-gray-600">Date de fin</label>
                     <DatePicker
+                        id="endDate"
                         selected={endDate}
                         onChange={(date: Date | null) => setEndDate(date)}
-                        placeholderText="Date de fin"
-                        className="border border-gray-300 rounded-md p-2"
+                        placeholderText="Sélectionnez une date"
+                        className="border border-gray-300 rounded-md p-2 text-sm"
                     />
                 </div>
             </div>
