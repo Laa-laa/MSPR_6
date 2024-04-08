@@ -10,7 +10,7 @@ const AddPlantQuestion: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/plantsQuestions?owner_id=2', {
+      const response = await axios.post('http://127.0.0.1:8000/api/plantsQuestions?owner_id=1', {
         Picture: '', // Remplacer par l'image si nécessaire
         Title: title,
         Content: content,
@@ -36,7 +36,7 @@ const AddPlantQuestion: React.FC = () => {
     <div><NavigationBar />
       <div className="bg-white p-8 rounded-t-3xl text-center w-full flex flex-col flex-wrap justify-center h-full shadow-lg">
         <div className="addPlantQuestionHeader mb-8">
-          <h1 className="text-3xl text-green-900">Ajouter une plante à faire garder</h1>
+          <h1 className="text-3xl text-green-900">Poser une question</h1>
         </div>
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         <form className="addPlantQuestionForm mx-auto" onSubmit={handleSubmit}>
