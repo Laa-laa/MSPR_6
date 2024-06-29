@@ -8,6 +8,9 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import AddPlantQuestion from "./components/AddPlantQuestion";
 import AddPlantToGuard from "./components/AddPlantToGuard";
+import PrivacyPolicy from "./components/PrivacyPolicy";
+import CookiesPolicy from "./components/CookiesPolicy";
+import Footer from "./footer";
 
 const App: React.FC = () => {
   const handleBack = () => {
@@ -27,7 +30,9 @@ const App: React.FC = () => {
               <Route path="faire-garder" element={ <AddPlantToGuard/> } />
         </Route>
         <Route path="/demander-conseil" element ={<AddPlantQuestion/>} /> 
-
+        <Route path="/privacy-policy" Component={PrivacyPolicy} />
+        <Route path="/cookies-policy" Component={CookiesPolicy} />
+      <Footer />
       </Routes>
     </BrowserRouter>
   );
